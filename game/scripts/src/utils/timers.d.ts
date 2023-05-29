@@ -24,6 +24,7 @@ declare interface Timers {
 
     RemoveTimer(name: string): void;
     RemoveTimers(killAll: boolean): void;
+    RemoveAllTimers(this: void): void;
 }
 
 declare global {
