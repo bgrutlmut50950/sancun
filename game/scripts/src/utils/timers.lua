@@ -1,4 +1,4 @@
-TIMERS_VERSION = "1.07"
+TIMERS_VERSION = "1.08"
 
 --[[
 	1.06 modified by Celireor (now uses binary heap priority queue instead of iteration to determine timer of shortest duration)
@@ -310,6 +310,12 @@ end
 function Timers:InitializeTimers()
 	self.realTimeHeap = BinaryHeap("endTime")
 	self.gameTimeHeap = BinaryHeap("endTime")
+end
+
+function Timers:RemoveAllTimers()
+    self.realTimeHeap = BinaryHeap("endTime")
+    self.gameTimeHeap = BinaryHeap("endTime")
+    self.nextTickCallbacks = {}
 end
 
 if not Timers.started then Timers:start() end
