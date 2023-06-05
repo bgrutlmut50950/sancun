@@ -1,0 +1,118 @@
+public BASE_ATTRIBUTE = {
+        力量: {
+            近战攻击力: 1,
+            属性格挡值: 1,
+            恢复力: 1,
+        },
+        敏捷: {
+            远程攻击力: 1,
+            属性闪避值: 1,
+            会心值: 1,
+        },
+        智力: {
+            魔法攻击力: 1,
+            魔法抗性: 1,
+            魔法恢复力: 1,
+        },
+    };
+
+    static PROFESSION_ATTRIBUTE = {
+        战士: {
+            职业攻击力: unit => {
+                return unit.property.get('近战攻击力');
+            },
+            职业格挡修正: unit => {
+                return 1.2;
+            },
+            职业闪避修正: unit => {
+                return 0.8;
+            },
+        },
+        法师: {
+            职业攻击力: unit => {
+                return unit.property.get('魔法攻击力');
+            },
+            职业格挡修正: unit => {
+                return 0.8;
+            },
+            职业闪避修正: unit => {
+                return 0.8;
+            },
+        },
+        刺客: {
+            职业攻击力: unit => {
+                return (unit.property.get('远程攻击力') + unit.property.get('近战攻击力')) * 0.5;
+            },
+            职业格挡修正: unit => {
+                return 1;
+            },
+            职业闪避修正: unit => {
+                return 1.3;
+            },
+        },
+        游侠: {
+            职业攻击力: unit => {
+                return unit.property.get('远程攻击力');
+            },
+            职业格挡修正: unit => {
+                return 0.8;
+            },
+            职业闪避修正: unit => {
+                return 1.2;
+            },
+        },
+    };
+
+    static BASE_CALC = {
+        等级修正: unit => {
+            return unit.property.get('等级') * 10;
+        },
+        攻击力: unit => {
+            return unit.property.get('基础攻击力') + unit.property.get('额外攻击力') + unit.property.get('职业攻击力');
+        },
+        计算格挡值: unit => {
+            return unit.property.get('属性格挡值') * unit.property.get('职业格挡修正');
+        },
+        计算闪避值: unit => {
+            return unit.property.get('属性闪避值') * unit.property.get('职业闪避修正');
+        },
+        格挡率: function (unit, target) {
+            return 1 - unit.property.get('计算格挡值') / (unit.property.get('计算格挡值') + target.get('等级修正'));
+        },
+        闪避率: function (unit, target) {
+            return 1 - unit.property.get('计算闪避值') / (unit.property.get('计算闪避值') + target.get('等级修正'));
+        },
+        魔抗减免: function (unit, target) {
+            return unit.property.get('魔法抗性') / (unit.property.get('魔法抗性') + target.get('等级修正'));
+        },
+        护甲减免: function (unit, target) {
+            return unit.property.get('护甲值') / (unit.property.get('护甲值') + target.get('等级修正'));
+        },
+    };
+
+    static GLOBAL_CALC = {
+        游戏难度: function () {
+            return 1;
+        },
+        难度因子: function (gameMode) {
+            return 1.25 ** (gameMode.get('游戏难度') - 1);
+        },
+        升级价格: function (unit) {
+            return (10 * 1.25) ** (unit.property.get('等级') - 1 + 10 * unit.property.get('等级'));
+        },
+    };
+
+    public MONSTER_ATTRIBUTE = {
+        生命值: function (unit) {
+            return 100 * 1.25 ** (unit.property.get('等级') - 1);
+        },
+        攻击力: function (unit) {
+            return 100 * 1.25 ** (unit.property.get('等级') - 1);
+        },
+        护甲值: function (unit) {
+            return 100 * 1.25 ** (unit.property.get('等级') - 1);
+        },
+        test: function () {
+            return 1020 ** 2;
+        },
+    };
