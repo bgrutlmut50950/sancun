@@ -1,0 +1,17 @@
+{
+    "npc_dota_creep_goodguys_melee": {
+        "type": "Monster",
+        "lv": 1,
+        "name": "练级小怪lv1"
+    },
+    "npc_dota_dummy_target": {
+        "type": "Monster",
+        "lv": 5,
+        "name": "测试怪物"
+    },
+    "npc_dota_hero_dragon_knight": {
+        "type": "BaseHero",
+        "lv": 1,
+        "name": "基础英雄"
+    }
+}
